@@ -23,25 +23,25 @@ jobs:
 
       - name: Install Newman and HTML Reporter
         run: |
-          npm install -g newman
-          npm install -g newman-reporter-htmlextra
-
-      - name: Run Postman Collection (without environment)
+            npm install -g newman newman-reporter-htmlextra --unsafe-perm=true --allow-root
+        
+      - name: Run Postman Collection and Generate HTML Report
         run: |
-            mkdir -p newman
             newman run learningPOSTMAN.json \
               -r htmlextra \
-              --reporter-htmlextra-export newman/report.html
-
-      - name: Show report exists
-        run: ls -l report.html 
+              --reporter-htmlextra-export ./report.html \
+              || exit 1
+        
+      - name: Verify HTML report
+        run: ls -l report.html
         
       - name: Upload HTML Report to Jira
         run: |
             curl -D- \
-               -u "${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}" \
-               -X POST \
-               -H "X-Atlassian-Token: no-check" \
-               -H "Content-Type: multipart/form-data" \
-               -F "file=@report.html" \
-               https://${{ secrets.JIRA_DOMAIN }}/rest/api/2/issue/${{ secrets.JIRA_ISSUE_KEY }}/attachments
+              -u "${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}" \
+              -X POST \
+              -H "X-Atlassian-Token: no-check" \
+              -H "Content-Type: multipart/form-data" \
+              -F "file=@report.html" \
+              https://${{ secrets.JIRA_DOMAIN }}/rest/api/2/issue/${{ secrets.JIRA_ISSUE_KEY }}/attachments
+        
