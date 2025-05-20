@@ -34,9 +34,9 @@ jobs:
             -d '{"client_id": "${{ secrets.XRAY_CLIENT_ID }}", "client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}"}')
           echo "token=$RESPONSE" >> $GITHUB_OUTPUT
 
-      - name: Upload Newman JSON to Xray with Test Execution key
+      - name: Upload Newman Results to Xray
         run: |
-          curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/postman?testExecKey=${{ secrets.XRAY_TEST_EXECUTION_KEY }}" \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ steps.get_xray_token.outputs.token }}" \
-            --data @result.json
+              curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/postman?testExecKey=ATE-3" \
+                -H "Content-Type: application/json" \
+                -H "Authorization: Bearer ${{ steps.get_xray_token.outputs.token }}" \
+                --data @result.json
