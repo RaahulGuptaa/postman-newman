@@ -3,10 +3,10 @@ name: Newman Run
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   newman:

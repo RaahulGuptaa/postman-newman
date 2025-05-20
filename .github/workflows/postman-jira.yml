@@ -3,7 +3,10 @@ name: Run Postman and Upload HTML Report to Jira
 on:
   push:
     branches:
-      - master
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   postman-test:
