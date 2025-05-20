@@ -28,10 +28,11 @@ jobs:
 
       - name: Run Postman Collection (without environment)
         run: |
-          mkdir -p newman
-          newman run learningPOSTMAN.json \
-            -r htmlextra \
-            --reporter-htmlextra-export newman/report.html
+            mkdir -p newman
+            newman run learningPOSTMAN.json \
+              -r html \
+              --reporter-htmlextra-export newman/report.html
+        
 
       - name: Upload HTML Report to Jira
         run: |
