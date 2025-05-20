@@ -35,13 +35,3 @@ jobs:
       - name: Verify HTML report
         run: ls -l report.html
         
-      - name: Upload HTML Report to Jira
-        run: |
-            curl -D- \
-              -u "${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}" \
-              -X POST \
-              -H "X-Atlassian-Token: no-check" \
-              -H "Content-Type: multipart/form-data" \
-              -F "file=@report.html" \
-              https://${{ secrets.JIRA_DOMAIN }}/rest/api/2/issue/${{ secrets.JIRA_ISSUE_KEY }}/attachments
-        
