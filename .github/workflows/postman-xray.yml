@@ -15,11 +15,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Newman
-        run: npm install -g newman newman-reporter-junit
+        run: npm install -g newman
 
       - name: Run Postman Collection
         run: |
-          newman run tests/my_collection.json \
+          newman run tests/learningPOSTMAN.json \
             -r junit --reporter-junit-export results.xml
 
       - name: Authenticate with Xray
@@ -34,9 +34,9 @@ jobs:
             https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
-      - name: Upload Results to Xray
+      - name: Upload Results to Specific Test Execution in Xray
         run: |
           curl -H "Content-Type: multipart/form-data" \
-            -H "Authorization: Bearer ${{ steps.xray-auth.outputs.token }}" \
-            -F "file=@results.xml" \
-            "https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=MYK"
+               -H "Authorization: Bearer ${{ steps.xray-auth.outputs.token }}" \
+               -F "file=@results.xml" \
+               "https://xray.cloud.getxray.app/api/v2/import/execution/junit?testExecIssueKey=MYK-2"
