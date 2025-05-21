@@ -1,42 +1,42 @@
-name: Run Postman and Upload to Xray with Test Execution Link
+name: Postman Tests to Xray
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  upload-to-xray:
+  run-postman-and-upload:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
       - name: Install Newman
-        run: npm install -g newman
+        run: npm install -g newman newman-reporter-junit
 
-      - name: Run Postman and generate JSON report
+      - name: Run Postman Collection
         run: |
-          newman run learningPOSTMAN.json \
-            -r json \
-            --reporter-json-export result.json
+          newman run tests/my_collection.json \
+            -r junit --reporter-junit-export results.xml
 
-      - name: Get Xray API token
-        id: get_xray_token
+      - name: Authenticate with Xray
+        id: xray-auth
         run: |
-          RESPONSE=$(curl -s -X POST https://xray.cloud.getxray.app/api/v2/authenticate \
-            -H "Content-Type: application/json" \
-            -d '{"client_id": "${{ secrets.XRAY_CLIENT_ID }}", "client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}"}')
-          echo "token=$RESPONSE" >> $GITHUB_OUTPUT
+          TOKEN=$(curl -s -H "Content-Type: application/json" \
+            -X POST \
+            -d '{
+              "client_id": "${{ secrets.XRAY_CLIENT_ID }}",
+              "client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}"
+            }' \
+            https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
-      - name: Upload Newman Results to Xray
+      - name: Upload Results to Xray
         run: |
-              curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/postman?testExecKey=ATE-3" \
-                -H "Content-Type: application/json" \
-                -H "Authorization: Bearer ${{ steps.get_xray_token.outputs.token }}" \
-                --data @result.json
+          curl -H "Content-Type: multipart/form-data" \
+            -H "Authorization: Bearer ${{ steps.xray-auth.outputs.token }}" \
+            -F "file=@results.xml" \
+            "https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=MYK"

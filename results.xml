@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="learningPOSTMAN" tests="6" time="2.297">
+  <testsuite name="List Of Users" id="5b19d3f0-9fa3-4a99-bdf8-15de4ffb0c28" timestamp="2025-05-21T07:04:46.604Z" tests="3" failures="1" errors="0" time="0.240">
+    <testcase name="ValidateStatus code is 200" time="0.240" classname="ListOfUsers"/>
+    <testcase name="Response time is less than 200ms" time="0.240" classname="ListOfUsers">
+      <failure type="AssertionFailure" message="expected 240 to be below 200">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 71b0e6cb-4454-46dd-b1fe-c25f5e13999b.]]>
+        <![CDATA[Collection name: learningPOSTMAN.]]>
+        <![CDATA[Request name: List Of Users.]]>
+        <![CDATA[Test description: Response time is less than 200ms.]]>
+        <![CDATA[Error message: expected 240 to be below 200.]]>
+        <![CDATA[Stacktrace: AssertionError: expected 240 to be below 200
+   at Object.eval sandbox-script.js:2:1).]]>
+      </failure>
+    </testcase>
+    <testcase name="Page Validation" time="0.240" classname="ListOfUsers"/>
+  </testsuite>
+  <testsuite name="Create Users" id="107d51ac-b066-4014-8dec-e5e53dae1d8e" timestamp="2025-05-21T07:04:46.604Z" tests="3" failures="0" errors="0" time="0.376">
+    <testcase name="ValidateStatus code is 201" time="0.376" classname="CreateUsers"/>
+    <testcase name="Response time is less than 500ms" time="0.376" classname="CreateUsers"/>
+    <testcase name="Validate schema" time="0.376" classname="CreateUsers"/>
+  </testsuite>
+  <testsuite name="Create Users with Invalid Name" id="9a2cfc6e-b90c-4c8f-a028-931265ae8a1c" timestamp="2025-05-21T07:04:46.604Z" tests="2" failures="0" errors="0" time="0.411">
+    <testcase name="ValidateStatus code is 201" time="0.411" classname="CreateUsersWithInvalidName"/>
+    <testcase name="Response time is less than 500ms" time="0.411" classname="CreateUsersWithInvalidName"/>
+  </testsuite>
+  <testsuite name="Update Users" id="df4f74ad-9fe3-4073-b4e2-754f9599654a" timestamp="2025-05-21T07:04:46.604Z" tests="2" failures="0" errors="0" time="0.495">
+    <testcase name="ValidateStatus code is 200" time="0.495" classname="UpdateUsers"/>
+    <testcase name="Response time is less than 500ms" time="0.495" classname="UpdateUsers"/>
+  </testsuite>
+  <testsuite name="Delete User" id="55553b18-c8f3-4adf-b717-48fb7d6c93be" timestamp="2025-05-21T07:04:46.604Z" tests="2" failures="0" errors="0" time="0.370">
+    <testcase name="Status code is 204 (No Content)" time="0.370" classname="DeleteUser"/>
+    <testcase name="Response body is empty" time="0.370" classname="DeleteUser"/>
+  </testsuite>
+  <testsuite name="Invalid user" id="a18ea979-8c3e-4912-abe6-72898b38b1ef" timestamp="2025-05-21T07:04:46.604Z" tests="1" failures="0" errors="0" time="0.405">
+    <testcase name="Status code is 404" time="0.405" classname="InvalidUser"/>
+  </testsuite>
+</testsuites>
