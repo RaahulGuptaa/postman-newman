@@ -1,41 +1,39 @@
-name: Postman Tests to Xray
+name: Run Postman Tests and Upload to Xray
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      testExecutionKey:
+        description: 'Jira Test Execution Key'
+        required: true
+        type: string
 
 jobs:
-  run-postman-and-upload:
+  run-postman-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Install Newman
-        run: npm install -g newman
+    - name: Run Postman Tests in Docker (No Environment File)
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/etc/newman \
+          postman/newman:alpine \
+          run learningPOSTMAN.json \
+          --reporters cli,junit \
+          --reporter-junit-export results.xml
 
-      - name: Run Postman Collection
-        run: |
-          newman run learningPOSTMAN.json \
-            -r junit --reporter-junit-export results.xml
+    - name: Get Xray Auth Token
+      id: get_token
+      run: |
+        response=$(curl -s -X POST https://xray.cloud.getxray.app/api/v2/authenticate \
+          -H "Content-Type: application/json" \
+          -d "{\"client_id\": \"${{ secrets.XRAY_CLIENT_ID }}\", \"client_secret\": \"${{ secrets.XRAY_CLIENT_SECRET }}\"}")
+        echo "token=$response" >> $GITHUB_OUTPUT
 
-      - name: Authenticate with Xray
-        id: xray-auth
-        run: |
-          TOKEN=$(curl -s -H "Content-Type: application/json" \
-            -X POST \
-            -d '{
-              "client_id": "${{ secrets.XRAY_CLIENT_ID }}",
-              "client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}"
-            }' \
-            https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
-          echo "token=$TOKEN" >> $GITHUB_OUTPUT
-
-      - name: Upload Results to Specific Test Execution in Xray
-        run: |
-          curl -H "Authorization: Bearer ${{ steps.xray-auth.outputs.token }}" \
-               -F "file=@results.xml" \
-               "https://xray.cloud.getxray.app/api/v2/import/execution/junit?testExecIssueKey=MYK-2"
+    - name: Upload Results to Xray
+      run: |
+        curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/junit?testExecKey=${{ github.event.inputs.testExecutionKey }}" \
+          -H "Authorization: Bearer ${{ steps.get_token.outputs.token }}" \
+          -F "file=@results.xml"
