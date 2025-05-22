@@ -17,4 +17,4 @@ jobs:
       - uses: matt-ball/newman-action@master
         with:
           apiKey: ${{ secrets.APIPOSTMAN }}
-          collection: learningPOSTMAN.json
+          collection: collection.json

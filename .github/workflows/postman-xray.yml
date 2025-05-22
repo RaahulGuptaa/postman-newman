@@ -22,7 +22,7 @@ jobs:
       run: |
         docker run --rm -v ${{ github.workspace }}:/etc/newman \
           postman/newman:alpine \
-          run learningPOSTMAN.json \
+          run collection.json \
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
