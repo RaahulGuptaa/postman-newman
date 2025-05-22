@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="collection" tests="1" time="0.150">
-  <testsuite name="List Of Users" id="00530b77-bae4-4e76-ac3b-5983f12eca9c" timestamp="2025-05-22T08:44:46.236Z" tests="1" failures="0" errors="0" time="0.150">
-    <testcase name="MYK-5 - Verify GET request with valid inputs successfully returns a list of users." time="0.150" classname="Collection"/>
+<testsuites name="collection" tests="1" time="0.103">
+  <testsuite name="List Of Users" id="376d1e09-0247-4ef1-935d-770455b9ec27" timestamp="2025-05-22T08:47:31.606Z" tests="1" failures="0" errors="0" time="0.103">
+    <testcase name="MYK-5 - Verify GET request with valid inputs successfully returns a list of users." time="0.103" classname="Collection"/>
   </testsuite>
 </testsuites>
