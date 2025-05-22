@@ -29,13 +29,14 @@ jobs:
             curl -L https://github.com/Xray-App/xray-cli/releases/latest/download/xray-linux -o xray
             chmod +x xray
             sudo mv xray /usr/local/bin/xray
+            xray --version  # Optional: verify it's working
         
-
     - name: Upload Results to Xray using CLI
       run: |
-        xray \
-          --client-id "${{ secrets.XRAY_CLIENT_ID }}" \
-          --client-secret "${{ secrets.XRAY_CLIENT_SECRET }}" \
-          import junit \
-          --testExecKey "${{ github.event.inputs.testExecutionKey }}" \
-          --file results.xml
+            xray \
+              --client-id "${{ secrets.XRAY_CLIENT_ID }}" \
+              --client-secret "${{ secrets.XRAY_CLIENT_SECRET }}" \
+              import junit \
+              --testExecKey "${{ github.event.inputs.testExecutionKey }}" \
+              --file results.xml
+        
