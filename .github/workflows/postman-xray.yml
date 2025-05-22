@@ -26,16 +26,13 @@ jobs:
 
     - name: Download and install xray-cli
       run: |
-            XRAY_CLI_URL=$(curl -s https://api.github.com/repos/Xray-App/xray-cli/releases/latest \
-              | grep "browser_download_url" \
-              | grep "xray-linux" \
-              | cut -d '"' -f 4)
-        
-            echo "Downloading from $XRAY_CLI_URL"
+            VERSION=$(curl -s https://api.github.com/repos/Xray-App/xray-cli/releases/latest | grep tag_name | cut -d '"' -f 4)
+            XRAY_CLI_URL="https://github.com/Xray-App/xray-cli/releases/download/${VERSION}/xray-linux"
             curl -L "$XRAY_CLI_URL" -o xray
             chmod +x xray
             sudo mv xray /usr/local/bin/xray
             xray --version
+        
         
         
     - name: Upload Results to Xray using CLI
