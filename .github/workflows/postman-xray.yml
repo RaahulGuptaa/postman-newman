@@ -24,11 +24,12 @@ jobs:
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
-    - name: Download xray-cli
+    - name: Download and install xray-cli
       run: |
-        curl -sL https://xray.app/getcli | bash
-        chmod +x xray
-        mv xray /usr/local/bin/xray
+            curl -L https://github.com/Xray-App/xray-cli/releases/latest/download/xray-linux -o xray
+            chmod +x xray
+            sudo mv xray /usr/local/bin/xray
+        
 
     - name: Upload Results to Xray using CLI
       run: |
