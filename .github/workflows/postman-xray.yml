@@ -19,7 +19,7 @@ jobs:
 
       - name: Run Postman Collection
         run: |
-          newman run tests/learningPOSTMAN.json \
+          newman run learningPOSTMAN.json \
             -r junit --reporter-junit-export results.xml
 
       - name: Authenticate with Xray
