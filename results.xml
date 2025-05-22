@@ -1,28 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="learningPOSTMAN" tests="6" time="0.843">
-  <testsuite name="List Of Users" id="ed475840-7c26-4749-ae8c-0074bff010c3" timestamp="2025-05-22T08:33:20.405Z" tests="3" failures="0" errors="0" time="0.115">
-    <testcase name="ValidateStatus code is 200" time="0.115" classname="LearningPostman"/>
-    <testcase name="Response time is less than 200ms" time="0.115" classname="LearningPostman"/>
-    <testcase name="Page Validation" time="0.115" classname="LearningPostman"/>
-  </testsuite>
-  <testsuite name="Create Users" id="81648b4b-e98e-4b7a-a4de-781f15525eb3" timestamp="2025-05-22T08:33:20.405Z" tests="3" failures="0" errors="0" time="0.181">
-    <testcase name="ValidateStatus code is 201" time="0.181" classname="LearningPostman"/>
-    <testcase name="Response time is less than 500ms" time="0.181" classname="LearningPostman"/>
-    <testcase name="Validate schema" time="0.181" classname="LearningPostman"/>
-  </testsuite>
-  <testsuite name="Create Users with Invalid Name" id="72f31c6e-9e13-4a74-95b5-586b39f6a1af" timestamp="2025-05-22T08:33:20.405Z" tests="2" failures="0" errors="0" time="0.173">
-    <testcase name="ValidateStatus code is 201" time="0.173" classname="LearningPostman"/>
-    <testcase name="Response time is less than 500ms" time="0.173" classname="LearningPostman"/>
-  </testsuite>
-  <testsuite name="Update Users" id="ed1ea6d1-7f5a-4ea8-9084-7caa05fd30f7" timestamp="2025-05-22T08:33:20.405Z" tests="2" failures="0" errors="0" time="0.181">
-    <testcase name="ValidateStatus code is 200" time="0.181" classname="LearningPostman"/>
-    <testcase name="Response time is less than 500ms" time="0.181" classname="LearningPostman"/>
-  </testsuite>
-  <testsuite name="Delete User" id="bec7c36d-c1bb-4859-b929-03191ea56df1" timestamp="2025-05-22T08:33:20.405Z" tests="2" failures="0" errors="0" time="0.174">
-    <testcase name="Status code is 204 (No Content)" time="0.174" classname="LearningPostman"/>
-    <testcase name="Response body is empty" time="0.174" classname="LearningPostman"/>
-  </testsuite>
-  <testsuite name="Invalid user" id="2cabe61a-25e3-4fb8-bbae-cfa4fb04c9ca" timestamp="2025-05-22T08:33:20.405Z" tests="1" failures="0" errors="0" time="0.019">
-    <testcase name="Status code is 404" time="0.019" classname="LearningPostman"/>
+<testsuites name="collection" tests="1" time="0.150">
+  <testsuite name="List Of Users" id="00530b77-bae4-4e76-ac3b-5983f12eca9c" timestamp="2025-05-22T08:44:46.236Z" tests="1" failures="0" errors="0" time="0.150">
+    <testcase name="MYK-5 - Verify GET request with valid inputs successfully returns a list of users." time="0.150" classname="Collection"/>
   </testsuite>
 </testsuites>
