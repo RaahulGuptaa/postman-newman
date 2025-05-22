@@ -15,6 +15,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run Postman Tests in Docker (No Environment File)
       run: |
@@ -23,6 +25,14 @@ jobs:
           run learningPOSTMAN.json \
           --reporters cli,junit \
           --reporter-junit-export results.xml
+
+    - name: Commit and push results.xml
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add results.xml
+        git commit -m "Add results.xml from test run" || echo "No changes to commit"
+        git push origin HEAD
 
     - name: Get Xray Auth Token
       id: get_token
