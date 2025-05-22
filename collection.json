@@ -13,7 +13,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"MYK-5 - Verify GET request with valid inputs successfully returns a list of users.\", function () {",
+							"pm.test(\"MYK-3 - Verify GET request with valid inputs successfully returns a list of users.\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
 							""
