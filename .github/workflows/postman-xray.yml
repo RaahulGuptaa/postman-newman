@@ -1,38 +1,53 @@
-name: Run Postman Tests and Upload to Xray
+name: Run Postman Tests and Upload to Xray (v1 API)
 
 on:
-  workflow_dispatch:
-    inputs:
-      testExecutionKey:
-        description: 'Jira Test Execution Key (e.g. MYK-123)'
-        required: true
-        type: string
+  workflow_dispatch
 
 jobs:
   run-postman-tests:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Run Postman tests with Newman and export JUnit XML
-      run: |
-        npm install -g newman
-        newman run collection.json \
-          --reporters cli,junit \
-          --reporter-junit-export results.xml
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # or any supported version
 
-    - name: Authenticate with Xray Cloud API
-      id: auth
-      run: |
-        token=$(curl -s -X POST https://xray.cloud.getxray.app/api/v2/authenticate \
-          -H "Content-Type: application/json" \
-          -d "{\"client_id\": \"${{ secrets.XRAY_CLIENT_ID }}\", \"client_secret\": \"${{ secrets.XRAY_CLIENT_SECRET }}\"}" | tr -d '"')
-        echo "token=$token" >> $GITHUB_OUTPUT
+      - name: Install Newman
+        run: npm install -g newman
 
-    - name: Upload JUnit results to Xray
-      run: |
-        curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/junit?testExecKey=${{ github.event.inputs.testExecutionKey }}" \
-          -H "Authorization: Bearer ${{ steps.auth.outputs.token }}" \
-          -F "file=@results.xml"
+      - name: Run Newman with JUnit reporter
+        run: |
+          newman run collection.json \
+            --reporters cli,junit \
+            --reporter-junit-export result.xml
+
+      - name: Verify result.xml file
+        run: |
+          if [ ! -f result.xml ]; then
+            echo "result.xml not found!"
+            exit 1
+          fi
+          echo "File size:"
+          ls -lh result.xml
+          echo "Preview:"
+          head -20 result.xml
+
+      - name: Get Xray Auth Token (v1 API)
+        id: get_token
+        run: |
+          token=$(curl -s -X POST https://xray.cloud.xpand-it.com/api/v1/authenticate \
+            -H "Content-Type: application/json" \
+            -d "{\"client_id\": \"${{ secrets.XRAY_CLIENT_ID }}\", \"client_secret\": \"${{ secrets.XRAY_CLIENT_SECRET }}\"}")
+          token=${token//\"/}
+          echo "token=$token" >> $GITHUB_OUTPUT
+
+      - name: Upload results to Xray (v1 API)
+        run: |
+          curl -X POST "https://xray.cloud.xpand-it.com/api/v1/import/execution/junit?projectKey=MYK-1" \
+            -H "Authorization: Bearer ${{ steps.get_token.outputs.token }}" \
+            -H "Content-Type: text/xml" \
+            --data-binary @result.xml

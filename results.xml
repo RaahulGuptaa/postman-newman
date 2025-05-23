@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="collection" tests="1" time="0.151">
-  <testsuite name="List Of Users" id="59a13966-f9cd-47ba-976d-c810462cb8b0" timestamp="2025-05-22T08:53:19.698Z" tests="1" failures="0" errors="0" time="0.151">
-    <testcase name="MYK-3 - Verify GET request with valid inputs successfully returns a list of users." time="0.151" classname="Collection"/>
-  </testsuite>
-</testsuites>
