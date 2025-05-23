@@ -39,11 +39,12 @@ jobs:
       - name: Get Xray Auth Token (v1 API)
         id: get_token
         run: |
-          token=$(curl -s -X POST https://xray.cloud.xpand-it.com/api/v1/authenticate \
-            -H "Content-Type: application/json" \
-            -d "{\"client_id\": \"${{ secrets.XRAY_CLIENT_ID }}\", \"client_secret\": \"${{ secrets.XRAY_CLIENT_SECRET }}\"}")
-          token=${token//\"/}
-          echo "token=$token" >> $GITHUB_OUTPUT
+            token=$(curl -s -X POST https://xray.cloud.xpand-it.com/api/v1/authenticate \
+              -H "Content-Type: application/json" \
+              -d "{\"client_id\": \"${{ secrets.XRAY_CLIENT_ID }}\", \"client_secret\": \"${{ secrets.XRAY_CLIENT_SECRET }}\"}")
+            token=${token//\"/}   # remove quotes
+            echo "token=$token" >> $GITHUB_OUTPUT
+        
 
       - name: Upload results to Xray (v1 API)
         run: |
